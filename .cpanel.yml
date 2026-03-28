@@ -1,0 +1,6 @@
+---
+deployment:
+  tasks:
+    - export GIT_DIR=/home/efinitys/repositories/padel-signup.git
+    - /usr/local/bin/git checkout -f main
+    - cp -r /home/efinitys/repositories/padel-signup/* /home/efinitys/public_html/playpadelwith.us/
