@@ -27,6 +27,9 @@ if ($token) {
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $tokenValid) {
+    // CSRF validation
+    require_csrf_token();
+    
     $password = $_POST['password'] ?? '';
     $confirmPassword = $_POST['confirm_password'] ?? '';
     
@@ -329,6 +332,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $tokenValid) {
                     </div>
                 <?php elseif ($tokenValid): ?>
                     <form method="POST" action="">
+                        <?php echo csrf_field(); ?>
                         <div class="form-field">
                             <label for="password">New Password</label>
                             <input 

@@ -13,6 +13,9 @@ $message = '';
 $email = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // CSRF validation
+    require_csrf_token();
+    
     $email = sanitizeInput($_POST['email'] ?? '');
     
     if (empty($email)) {
@@ -474,6 +477,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php endif; ?>
                 
                 <form method="POST" action="">
+                    <?php echo csrf_field(); ?>
                     <div class="form-field">
                         <label for="email">Email Address</label>
                         <input 

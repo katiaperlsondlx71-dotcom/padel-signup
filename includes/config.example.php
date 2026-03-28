@@ -21,11 +21,13 @@ define('EMAIL_NOREPLY', 'noreply@yourdomain.com');
 define('DEFAULT_TIMEZONE', 'Asia/Bangkok');
 define('DETECT_USER_TIMEZONE', true);
 
-// Session settings
-define('SESSION_LIFETIME', 2592000); // 30 days
+// Session settings (in seconds)
+// 7200 = 2 hours for regular sessions
+// Note: "remember me" functionality still uses 30-day tokens via cookies
+define('SESSION_LIFETIME', 7200); 
 
 // Security settings
-define('PASSWORD_MIN_LENGTH', 6);
+define('PASSWORD_MIN_LENGTH', 8);
 define('HASH_ALGORITHM', PASSWORD_DEFAULT);
 
 // Set timezone

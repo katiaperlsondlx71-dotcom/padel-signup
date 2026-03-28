@@ -1727,6 +1727,45 @@ function sendEmailWithICSAttachment($to, $subject, $htmlBody, $tournament, $user
     }
 }
 
+// CSRF Protection Functions
+function csrf_token() {
+    if (!isset($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return $_SESSION['csrf_token'];
+}
+
+function csrf_field() {
+    return '<input type="hidden" name="csrf_token" value="' . csrf_token() . '">';
+}
+
+function validate_csrf_token($token) {
+    if (!isset($_SESSION['csrf_token']) || empty($token)) {
+        return false;
+    }
+    return hash_equals($_SESSION['csrf_token'], $token);
+}
+
+function require_csrf_token() {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $token = $_POST['csrf_token'] ?? '';
+        if (!validate_csrf_token($token)) {
+            die('CSRF token validation failed. Please go back and try again.');
+        }
+    }
+}
+
+// Password validation
+function validate_password($password) {
+    $minLength = defined('PASSWORD_MIN_LENGTH') ? PASSWORD_MIN_LENGTH : 8;
+    
+    if (strlen($password) < $minLength) {
+        return ['valid' => false, 'error' => "Password must be at least {$minLength} characters"];
+    }
+    
+    return ['valid' => true, 'error' => null];
+}
+
 // Check for remember me token if user is not logged in
 if (!isset($_SESSION['user_id']) && isset($_COOKIE['remember_token'])) {
     loginWithRememberToken($_COOKIE['remember_token']);

@@ -45,6 +45,9 @@ $formData = [
 ];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // CSRF validation
+    require_csrf_token();
+    
     // Handle time fields - either from hidden fields or construct from hour/minute
     $startTime = sanitizeInput($_POST['start_time'] ?? '');
     $endTime = sanitizeInput($_POST['end_time'] ?? '');
@@ -605,6 +608,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php endif; ?>
                 
                 <form method="POST" action="">
+                    <?php echo csrf_field(); ?>
                     <div class="form-field">
                         <label for="name">Tournament Name</label>
                         <input 

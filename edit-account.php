@@ -17,6 +17,9 @@ if (!$user) {
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // CSRF validation
+    require_csrf_token();
+    
     $name = trim($_POST['name'] ?? '');
     $nickname = trim($_POST['nickname'] ?? '');
     $email = trim($_POST['email'] ?? '');
@@ -585,6 +588,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="content-container">
             <div class="form-card">
                 <form method="POST">
+                    <?php echo csrf_field(); ?>
                     <!-- Personal Information -->
                     <div class="form-section">
                         <h3>Personal Information</h3>

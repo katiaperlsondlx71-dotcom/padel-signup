@@ -12,6 +12,9 @@ $errors = [];
 $formData = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // CSRF validation
+    require_csrf_token();
+    
     $formData = [
         'name' => sanitizeInput($_POST['name'] ?? ''),
         'nickname' => sanitizeInput($_POST['nickname'] ?? ''),
@@ -480,6 +483,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php endif; ?>
                 
                 <form method="POST" action="">
+                    <?php echo csrf_field(); ?>
                     <div class="form-row">
                         <div class="form-field">
                             <label for="name">Full Name</label>
