@@ -388,6 +388,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 justify-content: space-between;
             }
         }
+    @media (max-width: 600px) {
+            .title-container h1 { font-size: 28px; }
+            .login-form { padding: 20px; margin: 0 10px; }
+            .nav-container { padding: 0 15px; }
+            .nav-links { display: none; }
+            .form-group input { padding: 12px; font-size: 16px; }
+            .btn-primary { width: 100%; padding: 14px; font-size: 16px; }
+            .content-container { padding: 0 15px; }
+        }
     </style>
 </head>
 <body>
