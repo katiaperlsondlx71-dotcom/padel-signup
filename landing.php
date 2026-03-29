@@ -172,9 +172,9 @@ $pageTitle = 'Play Padel with Us - Tournament Management Made Simple';
                     <p>Players get email reminders before each tournament. Less no-shows because players simply don't forget.</p>
                 </div>
                 <div class="landing-card">
-                    <div class="landing-card-icon">✅</div>
-                    <h3>Track Who Showed Up</h3>
-                    <p>Mark players as present or no-show. Know exactly who played and keep your records straight.</p>
+                    <div class="landing-card-icon">📋</div>
+                    <h3>Manage Waitlists Automatically</h3>
+                    <p>When a tournament fills up, the waitlist runs itself. No more manual tracking of who goes next.</p>
                 </div>
                 <div class="landing-card">
                     <div class="landing-card-icon">📱</div>
