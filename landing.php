@@ -14,7 +14,7 @@ $pageTitle = 'Play Padel with Us - Tournament Management Made Simple';
     <link rel="stylesheet" href="css/modern-style.css">
     <style>
         .landing-hero {
-            background: linear-gradient(135deg, #1a472a 0%, #2d5a3f 100%);
+            background: linear-gradient(135deg, #4299e1 0%, #2b6cb0 100%);
             color: white;
             padding: 80px 0;
             text-align: center;
@@ -27,7 +27,7 @@ $pageTitle = 'Play Padel with Us - Tournament Management Made Simple';
         }
         .landing-hero p {
             font-size: 1.25rem;
-            opacity: 0.9;
+            opacity: 0.95;
             max-width: 600px;
             margin: 0 auto 30px;
             line-height: 1.6;
@@ -78,10 +78,10 @@ $pageTitle = 'Play Padel with Us - Tournament Management Made Simple';
         .landing-card h3 {
             font-size: 1.25rem;
             margin-bottom: 12px;
-            color: #1a472a;
+            color: #2b6cb0;
         }
         .landing-card p {
-            color: #64748b;
+            color: #4a5568;
             line-height: 1.6;
         }
         .landing-card-icon {
@@ -89,7 +89,7 @@ $pageTitle = 'Play Padel with Us - Tournament Management Made Simple';
             margin-bottom: 15px;
         }
         .landing-testimonial {
-            background: linear-gradient(135deg, #1a472a 0%, #2d5a3f 100%);
+            background: linear-gradient(135deg, #2b6cb0 0%, #1a202c 100%);
             color: white;
             padding: 60px 0;
             text-align: center;
@@ -105,7 +105,7 @@ $pageTitle = 'Play Padel with Us - Tournament Management Made Simple';
             display: block;
             margin-top: 20px;
             font-size: 1rem;
-            opacity: 0.8;
+            opacity: 0.9;
         }
         .landing-cta-secondary {
             text-align: center;
@@ -116,13 +116,13 @@ $pageTitle = 'Play Padel with Us - Tournament Management Made Simple';
             margin-bottom: 15px;
         }
         .landing-cta-secondary p {
-            color: #64748b;
+            color: #4a5568;
             margin-bottom: 30px;
         }
     </style>
 </head>
 <body>
-    <header class="header" style="background: rgba(26,71,42,0.95);">
+    <header class="header" style="background: white; border-bottom: 1px solid #e2e8f0;">
         <div class="container">
             <div class="header-content">
                 <a href="landing.php" class="logo">🏓 Padel Tournaments</a>
@@ -134,7 +134,7 @@ $pageTitle = 'Play Padel with Us - Tournament Management Made Simple';
                     </ul>
                 </nav>
                 <div class="user-menu">
-                    <a href="login.php" class="btn btn-secondary btn-sm">Login</a>
+                    <a href="login.php" class="btn btn-secondary btn-sm" style="color: #2d3748;">Login</a>
                     <a href="register.php" class="btn btn-primary btn-sm">Get Started</a>
                 </div>
             </div>
