@@ -143,8 +143,8 @@ $pageTitle = 'Play Padel with Us - Tournament Management Made Simple';
 
     <div class="landing-hero">
         <div class="container">
-            <h1>Run Your Padel Tournaments Without the Headache</h1>
-            <p>The easiest way for club owners to create tournaments, manage players, and keep everyone informed. Save hours every week and never miss a no-show again.</p>
+            <h1>Run Your Padel Americano / Mexicano Tournaments Without the Headache</h1>
+            <p>The easiest way for club owners to create americano / mexicano tournaments, manage players, and keep everyone informed. Save hours every week and never miss a no-show again.</p>
             <div class="landing-cta">
                 <a href="register.php" class="btn btn-primary">Start Free</a>
                 <a href="#how-it-works" class="btn btn-secondary" style="background: rgba(255,255,255,0.2); border: 2px solid white; color: white;">See How It Works</a>
@@ -154,12 +154,12 @@ $pageTitle = 'Play Padel with Us - Tournament Management Made Simple';
 
     <div class="landing-section" id="features">
         <div class="container">
-            <h2>Everything You Need to Run Successful Tournaments</h2>
+            <h2>Everything You Need to Run Successful Americano / Mexicano Tournaments</h2>
             <div class="landing-grid">
                 <div class="landing-card">
                     <div class="landing-card-icon">📅</div>
                     <h3>Easy Scheduling</h3>
-                    <p>Create tournaments in seconds. Set date, time, location, max players, and skill level — done.</p>
+                    <p>Create americano / mexicano tournaments in seconds. Set date, time, location, max players, and skill level — done.</p>
                 </div>
                 <div class="landing-card">
                     <div class="landing-card-icon">👥</div>
@@ -184,7 +184,7 @@ $pageTitle = 'Play Padel with Us - Tournament Management Made Simple';
                 <div class="landing-card">
                     <div class="landing-card-icon">🎉</div>
                     <h3>Build Your Community</h3>
-                    <p>Players see upcoming tournaments, register instantly, and keep coming back to your club.</p>
+                    <p>Players see upcoming americano / mexicano tournaments, register instantly, and keep coming back to your club.</p>
                 </div>
             </div>
         </div>
@@ -215,14 +215,14 @@ $pageTitle = 'Play Padel with Us - Tournament Management Made Simple';
 
     <div class="landing-testimonial" id="testimonials">
         <div class="container">
-            <blockquote>"Managing our padel tournaments used to be a nightmare — chasing players for replies, manually tracking who was registered, and sending reminders. Now everything happens automatically. It saves me hours every tournament and players actually show up because they get reminders."</blockquote>
+            <blockquote>"Managing our padel americano / mexicano tournaments used to be a nightmare — chasing players for replies, manually tracking who was registered, and sending reminders. Now everything happens automatically. It saves me hours every tournament and players actually show up because they get reminders."</blockquote>
             <cite>— Club Manager, Thailand</cite>
         </div>
     </div>
 
     <div class="landing-cta-secondary">
         <div class="container">
-            <h2>Ready to Simplify Your Tournaments?</h2>
+            <h2>Ready to Simplify Your Americano / Mexicano Tournaments?</h2>
             <p>Join hundreds of padel clubs already using our platform. Free to start, no credit card required.</p>
             <a href="register.php" class="btn btn-primary">Create Your First Tournament</a>
         </div>
