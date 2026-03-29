@@ -125,7 +125,7 @@ $pageTitle = 'Play Padel with Us - Tournament Management Made Simple';
     <header class="header" style="background: white; border-bottom: 1px solid #e2e8f0;">
         <div class="container">
             <div class="header-content">
-                <a href="landing.php" class="logo">🏓 Padel Tournaments</a>
+                <a href="landing.php" class="logo">🎾 Play Padel with Us</a>
                 <nav>
                     <ul class="nav-menu">
                         <li><a href="#features">Features</a></li>
