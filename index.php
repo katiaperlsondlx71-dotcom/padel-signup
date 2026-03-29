@@ -120,6 +120,7 @@ $pageTitle = 'Play Padel with Us - Tournament Management Made Simple';
             margin-bottom: 30px;
         }
     @media (max-width: 768px) {
+            .header { display: none; }
             .header-content {
                 flex-direction: column;
                 gap: 15px;
