@@ -1179,28 +1179,34 @@ function sendWelcomeEmail($email, $name) {
         
         $body = "Hi {$name},
 
-🎾 Welcome to the Play Padel with Us community!
+Welcome to the Play Padel with Us community!
 
 Your account has been created successfully and you're now ready to join padel tournaments in your area.
 
 Here's what you can do next:
-• Register for tournaments that match your skill level
-• Accept invitations from other members to play a tournament
+- Register for tournaments that match your skill level
+- Accept invitations from other members to play a tournament
 
 Visit your dashboard: {$siteUrl}
 
-If you have any questions, feel free to reach out to us at " . EMAIL_REPLY_TO . "
+If you have any questions, feel free to reach out to us.
 
 See you on the court!
 
 Best regards,
-The " . APP_NAME . " Team
+The Play Padel with Us Team";
 
-P.S. Don't forget to check your account settings to ensure your timezone and country are correct for the best tournament experience.";
-
+        // Use simpler headers like tournament creation email
+        $headers = [
+            'From: noreply@' . $_SERVER['HTTP_HOST'],
+            'Reply-To: noreply@' . $_SERVER['HTTP_HOST'],
+            'Content-Type: text/plain; charset=UTF-8',
+            'X-Mailer: PHP/' . phpversion()
+        ];
+        
         error_log("DEBUG: Sending welcome email to {$email}");
         
-        return sendImprovedEmail($email, $subject, $body);
+        return mail($email, $subject, $body, implode("\r\n", $headers));
         
     } catch (Exception $e) {
         error_log("Failed to send welcome email: " . $e->getMessage());
