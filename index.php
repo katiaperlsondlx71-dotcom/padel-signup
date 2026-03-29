@@ -119,102 +119,35 @@ $pageTitle = 'Play Padel with Us - Tournament Management Made Simple';
             color: #4a5568;
             margin-bottom: 30px;
         }
-    @media (max-width: 768px) {
-            .header { display: block; background: linear-gradient(135deg, #4299e1 0%, #2b6cb0 100%); }
+        @media (max-width: 768px) {
+            .header { display: block; background: linear-gradient(135deg, #4299e1, #2b6cb0); }
             .header a { color: white; }
-            .header-content { flex-direction: column; gap: 10px; padding: 15px; }
-            .nav-menu { flex-wrap: wrap; justify-content: center; gap: 10px; }
-            .nav-menu a { color: rgba(255,255,255,0.9); }
-            .user-menu { justify-content: center; }
-            .user-menu .btn { border: 1px solid white; }
-            .landing-grid { grid-template-columns: 1fr !important; }
-            .header-content {
-                flex-direction: column;
-                gap: 15px;
-                padding: 15px 0;
-            }
-            .nav-menu {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 15px;
-            }
-            .user-menu {
-                gap: 10px;
-            }
-            .landing-hero {
-                padding: 40px 0;
-            }
-            .landing-hero h1 {
-                font-size: 1.8rem;
-                padding: 0 15px;
-            }
-            .landing-hero p {
-                font-size: 1rem;
-                padding: 0 15px;
-            }
-            .landing-cta {
-                flex-direction: column;
-                padding: 0 20px;
-            }
-            .landing-cta .btn {
-                width: 100%;
-                text-align: center;
-            }
-            .landing-section {
-                padding: 40px 0;
-            }
-            .landing-section h2 {
-                font-size: 1.5rem;
-                padding: 0 15px;
-            }
-            .landing-grid {
-                grid-template-columns: 1fr;
-                padding: 0 15px;
-            }
-            .landing-card {
-                padding: 20px;
-            }
-            .landing-testimonial {
-                padding: 40px 15px;
-            }
-            .landing-testimonial blockquote {
-                font-size: 1.1rem;
-            }
-            .landing-cta-secondary {
-                padding: 40px 15px;
-            }
-            .landing-cta-secondary h2 {
-                font-size: 1.4rem;
-            }
-            .landing-cta-secondary .btn {
-                display: block;
-                width: 100%;
-                margin: 10px 0;
-                text-align: center;
-            }
+            .header-content { flex-direction: column; align-items: center; gap: 10px; padding: 15px; }
+            .nav-menu { flex-wrap: wrap; justify-content: center; gap: 10px; padding: 0; margin: 10px 0; }
+            .nav-menu a { color: rgba(255,255,255,0.9); font-size: 14px; }
+            .user-menu { justify-content: center; gap: 8px; }
+            .user-menu .btn { border: 1px solid white; padding: 6px 12px; font-size: 13px; }
+            .landing-hero { padding: 60px 20px 40px; }
+            .landing-hero h1 { font-size: 1.6rem; line-height: 1.3; margin-bottom: 15px; }
+            .landing-hero p { font-size: 1rem; margin-bottom: 20px; }
+            .landing-cta { flex-direction: column; gap: 12px; }
+            .landing-cta .btn { width: 100%; padding: 14px 20px; font-size: 16px; }
+            .landing-section { padding: 30px 15px; }
+            .landing-section h2 { font-size: 1.4rem; margin-bottom: 25px; }
+            .landing-grid { grid-template-columns: 1fr; gap: 20px; }
+            .landing-card { padding: 20px; }
+            .landing-card-icon { font-size: 2rem; }
+            .landing-card h3 { font-size: 1.1rem; }
+            .landing-card p { font-size: 0.95rem; }
+            .landing-testimonial { padding: 30px 15px; }
+            .landing-timestimonial blockquote { font-size: 1rem; }
+            .landing-cta-secondary { padding: 30px 15px; }
+            .landing-cta-secondary h2 { font-size: 1.3rem; margin-bottom: 15px; }
+            .landing-cta-secondary p { font-size: 0.95rem; margin-bottom: 20px; }
+            .landing-cta-secondary .btn { display: block; width: 100%; margin: 10px 0; padding: 14px; }
+            footer { padding: 20px 15px; }
+            footer p { font-size: 0.85rem; }
         }
-    </style>
-</head>
-<body>
-    <header class="header" style="background: white; border-bottom: 1px solid #e2e8f0;">
-        <div class="container">
-            <div class="header-content">
-                <a href="index.php" class="logo">🎾 Play Padel with Us</a>
-                <nav>
-                    <ul class="nav-menu">
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#how-it-works">How It Works</a></li>
-                        <li><a href="#testimonials">Testimonials</a></li>
-                    </ul>
-                </nav>
-                <div class="user-menu">
-                    <a href="login.php" class="btn btn-secondary btn-sm" style="color: #2d3748;">Login</a>
-                    <a href="register.php" class="btn btn-primary btn-sm">Get Started</a>
-                </div>
-            </div>
-        </div>
-    </header>
-
     <div class="landing-hero">
         <div class="container">
             <h1>Stop Scheduling Your Americano / Mexicano Padel Tournaments Manually</h1>
