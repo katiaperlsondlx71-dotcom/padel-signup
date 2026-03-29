@@ -773,7 +773,8 @@ if (isLoggedIn()) {
                 header('Location: landing.php');
                 exit;
             endif; ?>
-            <?php elseif (empty($uniqueTournaments)): ?>
+            
+            <?php if (empty($uniqueTournaments)): ?>
                 <div class="empty-state">
                     <div class="empty-icon">🎾</div>
                     <h2>No upcoming games</h2>
