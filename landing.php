@@ -143,7 +143,7 @@ $pageTitle = 'Play Padel with Us - Tournament Management Made Simple';
 
     <div class="landing-hero">
         <div class="container">
-            <h1>Schedule Your Americano / Mexicano Padel Tournaments</h1>
+            <h1>Stop Scheduling Your Americano / Mexicano Padel Tournaments Manually</h1>
             <p>The easiest way for club owners to create tournaments, manage players, and keep everyone informed. Save hours every week.</p>
             <div class="landing-cta">
                 <a href="register.php" class="btn btn-primary">Start Free</a>
