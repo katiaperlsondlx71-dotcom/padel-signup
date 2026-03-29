@@ -120,7 +120,13 @@ $pageTitle = 'Play Padel with Us - Tournament Management Made Simple';
             margin-bottom: 30px;
         }
     @media (max-width: 768px) {
-            .header { display: none; }
+            .header { display: block; background: linear-gradient(135deg, #4299e1 0%, #2b6cb0 100%); }
+            .header a { color: white; }
+            .header-content { flex-direction: column; gap: 10px; padding: 15px; }
+            .nav-menu { flex-wrap: wrap; justify-content: center; gap: 10px; }
+            .nav-menu a { color: rgba(255,255,255,0.9); }
+            .user-menu { justify-content: center; }
+            .user-menu .btn { border: 1px solid white; }
             .landing-grid { grid-template-columns: 1fr !important; }
             .header-content {
                 flex-direction: column;
