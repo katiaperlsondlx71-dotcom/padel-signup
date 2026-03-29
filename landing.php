@@ -168,8 +168,8 @@ $pageTitle = 'Play Padel with Us - Tournament Management Made Simple';
                 </div>
                 <div class="landing-card">
                     <div class="landing-card-icon">📧</div>
-                    <h3>Never Forget a Reminder</h3>
-                    <p>Players get automatic email reminders before each tournament. No-shows become a thing of the past.</p>
+                    <h3>Automatic Reminders</h3>
+                    <p>Players get email reminders before each tournament. Less no-shows because players simply don't forget.</p>
                 </div>
                 <div class="landing-card">
                     <div class="landing-card-icon">✅</div>
