@@ -146,7 +146,6 @@ $pageTitle = 'Play Padel with Us - Tournament Management Made Simple';
             <h1>Stop Scheduling Your Americano / Mexicano Padel Tournaments Manually</h1>
             <p>The easiest way for club managers to create tournaments, manage players, and keep everyone informed. Save hours every week.</p>
             <div class="landing-cta">
-                <a href="login.php" class="btn btn-secondary" style="background: rgba(255,255,255,0.2); border: 2px solid white; color: white;">Login</a>
                 <a href="register.php" class="btn btn-primary">Get Started</a>
                 <a href="#how-it-works" class="btn btn-secondary" style="background: rgba(255,255,255,0.2); border: 2px solid white; color: white;">See How It Works</a>
             </div>
