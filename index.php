@@ -768,15 +768,11 @@ if (isLoggedIn()) {
     <!-- Content Area -->
     <div class="content-area">
         <div class="content-container">
-            <?php if (!isLoggedIn()): ?>
-                <div class="empty-state">
-                    <div class="empty-icon">🎾</div>
-                    <h2>Log in to see your games</h2>
-                    <p>Login to view your upcoming tournaments and registrations.</p>
-                    <div class="empty-actions">
-                        <a href="login.php" class="btn-primary">Login</a>
-                    </div>
-                </div>
+            <?php if (!isLoggedIn()):
+                // Redirect to landing page for non-logged in users
+                header('Location: landing.php');
+                exit;
+            endif; ?>
             <?php elseif (empty($uniqueTournaments)): ?>
                 <div class="empty-state">
                     <div class="empty-icon">🎾</div>
