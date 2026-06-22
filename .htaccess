@@ -21,6 +21,10 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
     Require all denied
 </Files>
 
+<Files "error_log">
+    Require all denied
+</Files>
+
 <FilesMatch "\.(log|ini)$">
     Require all denied
 </FilesMatch>
