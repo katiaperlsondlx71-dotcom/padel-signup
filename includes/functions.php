@@ -1256,8 +1256,16 @@ function sendImprovedEmail($to, $subject, $body, $isHtml = false) {
         $subject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
         
         error_log("Sending email to: {$to} with subject: {$subject}");
-        
-        return mail($to, $subject, $body, implode("\r\n", $headers));
+
+        // 5th arg sets the envelope-sender (-f). Without this, cPanel uses the
+        // account's default (efinitys@jonas.stabledns.com), which causes SPF +
+        // DKIM checks to run against the wrong domain and the mail to be
+        // dropped or spam-filed by Gmail/Hotmail/etc.
+        $envelopeFrom = '';
+        if (filter_var(EMAIL_NOREPLY, FILTER_VALIDATE_EMAIL)) {
+            $envelopeFrom = '-f' . EMAIL_NOREPLY;
+        }
+        return mail($to, $subject, $body, implode("\r\n", $headers), $envelopeFrom);
         
     } catch (Exception $e) {
         error_log("Email sending failed: " . $e->getMessage());
