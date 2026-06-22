@@ -33,8 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 createRememberToken($_SESSION['user_id']);
             }
             
-            // Redirect to intended page or home
-            $redirect = $_GET['redirect'] ?? 'index.php';
+            // Redirect to intended page or home (relative URLs only, prevents open-redirect phishing)
+            $redirect = safe_redirect_url($_GET['redirect'] ?? null);
             redirectTo($redirect);
         } else {
             $errors[] = 'Invalid email or password';

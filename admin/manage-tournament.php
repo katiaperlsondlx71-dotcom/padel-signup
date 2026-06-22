@@ -788,7 +788,7 @@ $availableUsers = array_filter($allUsers, function($u) { return !$u['registratio
                                         <input type="hidden" name="action" value="remove_user">
                                         <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
                                         <button type="submit" class="btn btn-danger btn-small"
-                                                onclick="return confirm('Remove <?php echo addslashes(htmlspecialchars(getDisplayName($user))); ?> from this tournament?')">
+                                                onclick="return confirm(<?php echo js_string_attr("Remove " . getDisplayName($user) . " from this tournament?"); ?>)">
                                             Remove
                                         </button>
                                     </form>
@@ -835,7 +835,7 @@ $availableUsers = array_filter($allUsers, function($u) { return !$u['registratio
                                     <input type="hidden" name="action" value="remove_user">
                                     <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
                                     <button type="submit" class="btn btn-danger btn-small"
-                                            onclick="return confirm('Remove <?php echo addslashes(htmlspecialchars(getDisplayName($user))); ?> from waitlist?')">
+                                            onclick="return confirm(<?php echo js_string_attr("Remove " . getDisplayName($user) . " from waitlist?"); ?>)">
                                         Remove
                                     </button>
                                 </form>

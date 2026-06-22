@@ -51,6 +51,9 @@ function login($email, $password) {
     $user = db()->fetch("SELECT * FROM users WHERE email = ?", [$email]);
     
     if ($user && password_verify($password, $user['password_hash'])) {
+        // Rotate session ID to defeat session fixation
+        session_regenerate_id(true);
+
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_name'] = $user['name'];
         $_SESSION['is_admin'] = $user['is_admin'];
@@ -183,7 +186,10 @@ function loginWithRememberToken($token) {
     if (!$tokenData) {
         return false;
     }
-    
+
+    // Rotate session ID to defeat session fixation
+    session_regenerate_id(true);
+
     // Set session data
     $_SESSION['user_id'] = $tokenData['user_id'];
     $_SESSION['user_name'] = $tokenData['name'];
@@ -615,6 +621,34 @@ function getUserInitials($name) {
 function redirectTo($url) {
     header("Location: $url");
     exit;
+}
+
+// Validate a user-supplied URL is a same-origin relative path.
+// Returns $default if the URL is absolute, protocol-relative, or unparseable.
+function safe_redirect_url($url, $default = 'index.php') {
+    if (empty($url) || !is_string($url)) {
+        return $default;
+    }
+    if (strpos($url, '//') === 0) {
+        return $default;
+    }
+    $parsed = parse_url($url);
+    if ($parsed === false || !empty($parsed['scheme']) || !empty($parsed['host'])) {
+        return $default;
+    }
+    return $url;
+}
+
+// Encode a value as a JS string literal safely embeddable inside an HTML attribute.
+// Returns a quoted, fully-encoded JS string (e.g. &quot;Mark's&quot;) so that
+// onclick="fn(<?= js_string_attr($name) ?>)" stays valid even if $name contains
+// quotes, backslashes, or HTML metacharacters.
+function js_string_attr($value) {
+    return htmlspecialchars(
+        json_encode((string)$value, JSON_HEX_QUOT | JSON_HEX_APOS | JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE),
+        ENT_QUOTES,
+        'UTF-8'
+    );
 }
 
 function showMessage($message, $type = 'info') {

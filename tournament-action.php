@@ -10,10 +10,7 @@ require_csrf_token();
 $action = $_POST['action'] ?? '';
 $tournamentId = intval($_POST['tournament_id'] ?? 0);
 $userId = $_SESSION['user_id'];
-$redirectUrl = urldecode($_POST['redirect_url'] ?? 'index.php');
-
-// Debug the redirect URL
-error_log("Tournament Action - Action: {$action}, Original: {$_POST['redirect_url']}, Decoded: {$redirectUrl}");
+$redirectUrl = safe_redirect_url(urldecode($_POST['redirect_url'] ?? ''));
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     redirectTo($redirectUrl);

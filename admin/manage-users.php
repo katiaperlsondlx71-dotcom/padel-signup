@@ -729,7 +729,7 @@ try {
                                 </form>
 
                                 <!-- Reset Password -->
-                                <button class="btn btn-secondary" onclick="resetPassword(<?php echo $user['id']; ?>, '<?php echo htmlspecialchars($user['name']); ?>')">
+                                <button class="btn btn-secondary" onclick="resetPassword(<?php echo $user['id']; ?>, <?php echo js_string_attr($user['name']); ?>)">
                                     🔑 Reset
                                 </button>
                                 
@@ -739,7 +739,7 @@ try {
                                     <input type="hidden" name="action" value="delete_user">
                                     <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
                                     <button type="submit" class="btn btn-danger"
-                                            onclick="return confirm('Are you sure you want to delete <?php echo htmlspecialchars($user['name']); ?>? This action cannot be undone.')">
+                                            onclick="return confirm(<?php echo js_string_attr("Are you sure you want to delete {$user['name']}? This action cannot be undone."); ?>)">
                                         🗑️ Delete
                                     </button>
                                 </form>

@@ -711,8 +711,8 @@ $shareUrl = APP_URL . '/tournament.php?t=' . $tournament['slug'];
                                             <input type="hidden" name="action" value="remove_player">
                                             <input type="hidden" name="target_user_id" value="<?php echo $player['user_id']; ?>">
                                             <input type="hidden" name="return_url" value="<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">
-                                            <button type="submit" 
-                                                    onclick="return confirm('Remove <?php echo addslashes(htmlspecialchars(getDisplayName($player))); ?> from this tournament?')"
+                                            <button type="submit"
+                                                    onclick="return confirm(<?php echo js_string_attr("Remove " . getDisplayName($player) . " from this tournament?"); ?>)"
                                                     style="background: none; color: #6b7280; border: none; padding: 2px 4px; font-size: 16px; cursor: pointer; line-height: 1; transition: color 0.2s; font-weight: bold;"
                                                     onmouseover="this.style.color='#dc2626'" 
                                                     onmouseout="this.style.color='#6b7280'"
@@ -747,8 +747,8 @@ $shareUrl = APP_URL . '/tournament.php?t=' . $tournament['slug'];
                                             <input type="hidden" name="action" value="remove_player">
                                             <input type="hidden" name="target_user_id" value="<?php echo $player['user_id']; ?>">
                                             <input type="hidden" name="return_url" value="<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">
-                                            <button type="submit" 
-                                                    onclick="return confirm('Remove <?php echo addslashes(htmlspecialchars(getDisplayName($player))); ?> from waitlist?')"
+                                            <button type="submit"
+                                                    onclick="return confirm(<?php echo js_string_attr("Remove " . getDisplayName($player) . " from waitlist?"); ?>)"
                                                     style="background: none; color: #6b7280; border: none; padding: 2px 4px; font-size: 16px; cursor: pointer; line-height: 1; transition: color 0.2s; font-weight: bold;"
                                                     onmouseover="this.style.color='#dc2626'" 
                                                     onmouseout="this.style.color='#6b7280'"

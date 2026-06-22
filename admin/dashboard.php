@@ -88,7 +88,7 @@ function renderTournamentRow($tournament) {
     echo csrf_field();
     echo '<input type="hidden" name="action" value="delete_tournament">';
     echo '<input type="hidden" name="tournament_id" value="' . intval($tournament['id']) . '">';
-    echo '<button type="submit" onclick="return confirmDelete(\'' . addslashes(htmlspecialchars($tournament['name'])) . '\')" style="background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 500; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background=\'#dc2626\'" onmouseout="this.style.background=\'#ef4444\'">Delete</button>';
+    echo '<button type="submit" onclick="return confirmDelete(' . js_string_attr($tournament['name']) . ')" style="background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 500; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background=\'#dc2626\'" onmouseout="this.style.background=\'#ef4444\'">Delete</button>';
     echo '</form>';
     echo '</td>';
     
