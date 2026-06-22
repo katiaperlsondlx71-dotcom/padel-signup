@@ -679,6 +679,14 @@ function safe_redirect_url($url, $default = 'index.php') {
     return $url;
 }
 
+// Validate a country code against the $countries allowlist defined in config.php.
+// Lives here (not config.php) because config.php is gitignored — adding it there
+// never deploys to prod, which causes a fatal error wherever this is called.
+function isValidCountryCode($code) {
+    global $countries;
+    return is_string($code) && isset($countries[$code]);
+}
+
 // Encode a value as a JS string literal safely embeddable inside an HTML attribute.
 // Returns a quoted, fully-encoded JS string (e.g. &quot;Mark's&quot;) so that
 // onclick handlers stay valid even if the value contains quotes, backslashes,
