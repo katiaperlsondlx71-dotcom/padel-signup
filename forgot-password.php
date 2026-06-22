@@ -22,29 +22,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'Email is required';
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors[] = 'Please enter a valid email address';
+    } elseif (isResetRateLimited()) {
+        // Silent failure — don't reveal that we're rate-limiting (preserves enumeration resistance)
+        $message = 'If that email address exists in our system, you will receive password reset instructions.';
     } else {
+        // Record the attempt regardless of whether the email exists, to feed the rate limiter
+        recordAuthAttempt('reset', $email, true);
+
         // Check if user exists
         $user = db()->fetch("SELECT * FROM users WHERE email = ?", [$email]);
-        
+
         if ($user) {
             // Generate reset token
             $token = bin2hex(random_bytes(32));
             $expiresAt = date('Y-m-d H:i:s', time() + (60 * 60)); // 1 hour
-            
+
             // Delete any existing tokens for this user
             db()->query("DELETE FROM password_reset_tokens WHERE user_id = ?", [$user['id']]);
-            
+
             // Insert new token
             db()->insert('password_reset_tokens', [
                 'user_id' => $user['id'],
                 'token' => $token,
                 'expires_at' => $expiresAt
             ]);
-            
+
             // Send reset email
             $resetUrl = APP_URL . '/reset-password.php?token=' . $token;
             $emailSent = sendPasswordResetEmail($user['email'], $user['name'], $resetUrl);
-            
+
             if ($emailSent) {
                 $message = 'Password reset instructions have been sent to your email address.';
             } else {

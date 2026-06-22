@@ -87,6 +87,17 @@ CREATE TABLE settings (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+-- Login / password-reset attempts (used for IP-based rate limiting)
+CREATE TABLE login_attempts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    ip_address VARCHAR(45) NOT NULL,
+    email VARCHAR(255),
+    action ENUM('login', 'reset') NOT NULL DEFAULT 'login',
+    success BOOLEAN DEFAULT FALSE,
+    attempted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_ip_action_time (ip_address, action, attempted_at)
+);
+
 -- Insert default admin user (password: admin123 — change immediately on fresh installs)
 INSERT INTO users (name, email, password_hash, country_code, is_admin) VALUES
 ('Admin', 'admin@padelapp.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'XX', TRUE);

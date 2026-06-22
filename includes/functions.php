@@ -1857,6 +1857,65 @@ function require_csrf_token() {
     }
 }
 
+// Rate limiting helpers (IP-based) for login + password reset.
+// All functions degrade silently if the login_attempts table doesn't exist
+// (e.g. migration hasn't been applied yet) — they return "not limited" so
+// the auth flows keep working.
+
+const LOGIN_RATE_LIMIT_WINDOW_MIN = 15;
+const LOGIN_RATE_LIMIT_MAX_FAILURES = 5;
+const RESET_RATE_LIMIT_WINDOW_MIN = 60;
+const RESET_RATE_LIMIT_MAX_REQUESTS = 3;
+
+function getClientIp() {
+    return $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+}
+
+function recordAuthAttempt($action, $email, $success) {
+    try {
+        db()->insert('login_attempts', [
+            'ip_address' => getClientIp(),
+            'email' => $email,
+            'action' => $action,
+            'success' => $success ? 1 : 0,
+        ]);
+    } catch (Exception $e) {
+        error_log("recordAuthAttempt failed: " . $e->getMessage());
+    }
+}
+
+function authAttemptsInWindow($action, $windowMinutes, $onlyFailures) {
+    try {
+        $sql = "SELECT COUNT(*) AS c FROM login_attempts
+                WHERE ip_address = ? AND action = ?
+                AND attempted_at > DATE_SUB(NOW(), INTERVAL ? MINUTE)";
+        $params = [getClientIp(), $action, $windowMinutes];
+        if ($onlyFailures) {
+            $sql .= " AND success = 0";
+        }
+        $row = db()->fetch($sql, $params);
+        return $row ? (int)$row['c'] : 0;
+    } catch (Exception $e) {
+        return 0;
+    }
+}
+
+function isLoginRateLimited() {
+    return authAttemptsInWindow('login', LOGIN_RATE_LIMIT_WINDOW_MIN, true) >= LOGIN_RATE_LIMIT_MAX_FAILURES;
+}
+
+function isResetRateLimited() {
+    return authAttemptsInWindow('reset', RESET_RATE_LIMIT_WINDOW_MIN, false) >= RESET_RATE_LIMIT_MAX_REQUESTS;
+}
+
+function cleanupOldLoginAttempts() {
+    try {
+        db()->query("DELETE FROM login_attempts WHERE attempted_at < DATE_SUB(NOW(), INTERVAL 7 DAY)");
+    } catch (Exception $e) {
+        // table may not exist yet
+    }
+}
+
 // Password validation
 function validate_password($password) {
     $minLength = defined('PASSWORD_MIN_LENGTH') ? PASSWORD_MIN_LENGTH : 8;
@@ -1880,6 +1939,7 @@ if (isset($_SESSION['user_id'])) {
     // Occasionally cleanup expired tokens (1% chance per page load)
     if (rand(1, 100) === 1) {
         cleanupExpiredRememberTokens();
+        cleanupOldLoginAttempts();
     }
 }
 ?>

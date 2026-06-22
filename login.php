@@ -27,16 +27,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     
     if (empty($errors)) {
-        if (login($email, $password)) {
+        if (isLoginRateLimited()) {
+            $errors[] = 'Too many failed login attempts from this network. Please wait 15 minutes and try again.';
+        } elseif (login($email, $password)) {
+            recordAuthAttempt('login', $email, true);
+
             // Handle remember me functionality
             if (isset($_POST['remember_me']) && $_POST['remember_me'] == '1') {
                 createRememberToken($_SESSION['user_id']);
             }
-            
+
             // Redirect to intended page or home (relative URLs only, prevents open-redirect phishing)
             $redirect = safe_redirect_url($_GET['redirect'] ?? null);
             redirectTo($redirect);
         } else {
+            recordAuthAttempt('login', $email, false);
             $errors[] = 'Invalid email or password';
         }
     }
