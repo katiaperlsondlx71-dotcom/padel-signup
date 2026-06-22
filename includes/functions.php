@@ -302,38 +302,48 @@ function isUserRegistered($tournamentId, $userId) {
 }
 
 function registerForTournament($tournamentId, $userId) {
-    $tournament = getTournament($tournamentId);
-    if (!$tournament) {
+    $pdo = db()->getConnection();
+
+    try {
+        $pdo->beginTransaction();
+
+        // Lock the tournament row — serializes concurrent registrations for this tournament
+        $tournament = db()->fetch("SELECT * FROM tournaments WHERE id = ? FOR UPDATE", [$tournamentId]);
+        if (!$tournament) {
+            $pdo->rollBack();
+            return false;
+        }
+
+        // Check duplicate
+        $existing = db()->fetch("SELECT id FROM registrations WHERE tournament_id = ? AND user_id = ?", [$tournamentId, $userId]);
+        if ($existing) {
+            $pdo->rollBack();
+            return false;
+        }
+
+        $registeredCount = (int) db()->fetch("
+            SELECT COUNT(*) AS c
+            FROM registrations
+            WHERE tournament_id = ? AND status = 'registered'
+        ", [$tournamentId])['c'];
+
+        $status = ($registeredCount >= $tournament['max_participants']) ? 'waitlist' : 'registered';
+
+        db()->insert('registrations', [
+            'tournament_id' => $tournamentId,
+            'user_id' => $userId,
+            'status' => $status
+        ]);
+
+        $pdo->commit();
+        return $status;
+    } catch (Exception $e) {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        error_log("registerForTournament error for tournament {$tournamentId}, user {$userId}: " . $e->getMessage());
         return false;
     }
-    
-    // Check if already registered
-    if (isUserRegistered($tournamentId, $userId)) {
-        return false;
-    }
-    
-    // Count current registrations (with better locking to prevent race conditions)
-    $registeredCount = db()->fetch("
-        SELECT COUNT(*) as count 
-        FROM registrations 
-        WHERE tournament_id = ? AND status = 'registered'
-    ", [$tournamentId])['count'];
-    
-    $status = ($registeredCount >= $tournament['max_participants']) ? 'waitlist' : 'registered';
-    
-    // Log the registration attempt for debugging
-    error_log("Registration attempt - Tournament: {$tournamentId}, User: {$userId}, Current count: {$registeredCount}, Max: {$tournament['max_participants']}, Status: {$status}");
-    
-    db()->insert('registrations', [
-        'tournament_id' => $tournamentId,
-        'user_id' => $userId,
-        'status' => $status
-    ]);
-    
-    // After registration, fix any inconsistencies
-    fixTournamentRegistrations($tournamentId);
-    
-    return $status;
 }
 
 function fixTournamentRegistrations($tournamentId) {
@@ -387,23 +397,66 @@ function fixTournamentRegistrations($tournamentId) {
 }
 
 function cancelRegistration($tournamentId, $userId) {
-    // Check the user's current status before deletion
-    $userRegistration = db()->fetch("
-        SELECT status FROM registrations 
-        WHERE tournament_id = ? AND user_id = ?
-    ", [$tournamentId, $userId]);
-    
-    $deleted = db()->delete('registrations', 'tournament_id = ? AND user_id = ?', [$tournamentId, $userId]);
-    
-    if ($deleted) {
-        // Only run fix if a registered player left (not waitlist)
-        // If a waitlist player left, no reordering is needed
-        if ($userRegistration && $userRegistration['status'] === 'registered') {
-            fixTournamentRegistrations($tournamentId);
+    $pdo = db()->getConnection();
+    $promoted = null;
+
+    try {
+        $pdo->beginTransaction();
+
+        // Lock the tournament row — serializes concurrent cancel/register ops for this tournament
+        $tournament = db()->fetch("SELECT id FROM tournaments WHERE id = ? FOR UPDATE", [$tournamentId]);
+        if (!$tournament) {
+            $pdo->rollBack();
+            return false;
         }
+
+        $userRegistration = db()->fetch("
+            SELECT status FROM registrations
+            WHERE tournament_id = ? AND user_id = ?
+        ", [$tournamentId, $userId]);
+
+        if (!$userRegistration) {
+            $pdo->rollBack();
+            return false;
+        }
+
+        $deleted = db()->delete('registrations', 'tournament_id = ? AND user_id = ?', [$tournamentId, $userId]);
+
+        // If a registered player left, promote the longest-waiting waitlist user (if any)
+        if ($deleted && $userRegistration['status'] === 'registered') {
+            $promoted = db()->fetch("
+                SELECT r.user_id, u.email, u.name
+                FROM registrations r
+                JOIN users u ON r.user_id = u.id
+                WHERE r.tournament_id = ? AND r.status = 'waitlist'
+                ORDER BY r.registration_time ASC
+                LIMIT 1
+            ", [$tournamentId]);
+
+            if ($promoted) {
+                db()->update('registrations',
+                    ['status' => 'registered'],
+                    'tournament_id = ? AND user_id = ?',
+                    [$tournamentId, $promoted['user_id']]
+                );
+            }
+        }
+
+        $pdo->commit();
+    } catch (Exception $e) {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        error_log("cancelRegistration error for tournament {$tournamentId}, user {$userId}: " . $e->getMessage());
+        return false;
     }
-    
-    return $deleted > 0;
+
+    // Send promotion email outside the transaction so a slow SMTP doesn't hold DB locks
+    if ($promoted) {
+        sendWaitlistPromotionEmail($tournamentId, $promoted['email'], $promoted['name']);
+    }
+
+    return true;
 }
 
 function cancelTournament($tournamentId, $userId) {
