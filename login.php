@@ -11,6 +11,12 @@ if (isLoggedIn()) {
 $errors = [];
 $email = '';
 
+// Preserve the post-login redirect (e.g. a shared tournament link) when the
+// visitor switches to the "Sign up here" link instead of logging in.
+$redirectQuery = isset($_GET['redirect'])
+    ? '?redirect=' . urlencode(safe_redirect_url($_GET['redirect']))
+    : '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // CSRF validation
     require_csrf_token();
@@ -516,8 +522,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 
                 <div class="signup-link">
-                    Don't have an account? 
-                    <a href="register.php">Sign up here</a>
+                    Don't have an account?
+                    <a href="register.php<?php echo htmlspecialchars($redirectQuery); ?>">Sign up here</a>
                 </div>
             </div>
         </div>

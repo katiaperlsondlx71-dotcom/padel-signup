@@ -42,6 +42,13 @@ $isUserBanned = $currentUser ? $currentUser['is_banned'] : false;
 
 // Generate shareable URL using slug
 $shareUrl = APP_URL . '/tournament.php?t=' . $tournament['slug'];
+
+// Relative URL back to this tournament, used so visitors who follow a shared
+// link and aren't logged in are returned here (not their home page) after login.
+$tournamentRelativeUrl = !empty($tournament['slug'])
+    ? 'tournament.php?t=' . urlencode($tournament['slug'])
+    : 'tournament.php?id=' . $tournament['id'];
+$loginUrl = 'login.php?redirect=' . urlencode($tournamentRelativeUrl);
 ?>
 
 <!DOCTYPE html>
@@ -578,7 +585,7 @@ $shareUrl = APP_URL . '/tournament.php?t=' . $tournament['slug'];
                 
                 <button class="mobile-menu-btn" onclick="openMobileMenu()">≡</button>
             <?php else: ?>
-                <a href="login.php" class="btn-primary">Login</a>
+                <a href="<?php echo htmlspecialchars($loginUrl); ?>" class="btn-primary">Login</a>
             <?php endif; ?>
         </div>
     </div>
@@ -828,7 +835,7 @@ $shareUrl = APP_URL . '/tournament.php?t=' . $tournament['slug'];
                     <?php endif; ?>
                 <?php else: ?>
                     <div class="action-buttons">
-                        <a href="login.php" class="btn btn-join">Login to Join</a>
+                        <a href="<?php echo htmlspecialchars($loginUrl); ?>" class="btn btn-join">Login to Join</a>
                     </div>
                 <?php endif; ?>
             </div>

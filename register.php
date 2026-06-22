@@ -11,6 +11,12 @@ if (isLoggedIn()) {
 $errors = [];
 $formData = [];
 
+// Where to send the user after signing up. Lets visitors who followed a shared
+// tournament link land back on that tournament (relative URLs only — open-redirect safe).
+// safe_redirect_url falls back to index.php when no/invalid redirect is supplied.
+$redirectTarget = safe_redirect_url($_GET['redirect'] ?? null);
+$redirectQuery = isset($_GET['redirect']) ? '?redirect=' . urlencode($redirectTarget) : '';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // CSRF validation
     require_csrf_token();
@@ -72,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $welcomeMessage .= ' A welcome email has been sent to your email address.';
                 }
                 showMessage($welcomeMessage, 'success');
-                redirectTo('index.php');
+                redirectTo($redirectTarget);
             }
         } elseif ($userId === 'emoji_error') {
             $errors[] = 'Please avoid using emojis in your name or nickname. Special characters may not be supported.';
@@ -575,8 +581,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </form>
                 
                 <div class="signup-link">
-                    Already have an account? 
-                    <a href="login.php">Sign in here</a>
+                    Already have an account?
+                    <a href="login.php<?php echo htmlspecialchars($redirectQuery); ?>">Sign in here</a>
                 </div>
             </div>
         </div>
