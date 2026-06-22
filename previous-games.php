@@ -558,7 +558,6 @@ function getSkillLevel($level) {
             <a href="index.php" class="logo">🎾 Play Padel with Us</a>
             
             <div class="nav-links">
-                <a href="player-levels.php" class="nav-link">Player Levels</a>
             </div>
             
             <?php if (isLoggedIn()): ?>
@@ -593,7 +592,6 @@ function getSkillLevel($level) {
             <div class="mobile-menu" onclick="event.stopPropagation()">
                 <button class="mobile-close" onclick="closeMobileMenu()">×</button>
                 <h3>Menu</h3>
-                <a href="player-levels.php">Player Levels</a>
                 <a href="create-tournament.php">Create Tournament</a>
                 <a href="index.php">My Upcoming Games</a>
                 <a href="previous-games.php">My Previous Games</a>

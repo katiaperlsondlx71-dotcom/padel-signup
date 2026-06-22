@@ -297,7 +297,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $tokenValid) {
             <a href="index.php" class="logo">🎾 Play Padel with Us</a>
             
             <div class="nav-links">
-                <a href="player-levels.php" class="nav-link">Player Levels</a>
             </div>
             
             <a href="login.php" class="btn-primary">Login</a>
