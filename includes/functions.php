@@ -781,17 +781,9 @@ Best regards,
 🎾 Play Padel with Us Team
 ";
 
-        // Email headers
-        $headers = [
-            'From: noreply@' . $_SERVER['HTTP_HOST'],
-            'Reply-To: noreply@' . $_SERVER['HTTP_HOST'],
-            'Content-Type: text/plain; charset=UTF-8',
-            'X-Mailer: PHP/' . phpversion()
-        ];
-        
-        // Send email
-        return mail($hostEmail, $subject, $body, implode("\r\n", $headers));
-        
+        // Send email via sendImprovedEmail() for proper headers (Date, Message-ID, etc.)
+        return sendImprovedEmail($hostEmail, $subject, $body);
+
     } catch (Exception $e) {
         error_log("Failed to send tournament creation email: " . $e->getMessage());
         return false;
@@ -871,24 +863,15 @@ Best regards,
 🎾 Play Padel with Us Team
 ";
 
-        // Email headers
-        $headers = [
-            'From: noreply@' . $_SERVER['HTTP_HOST'],
-            'Reply-To: noreply@' . $_SERVER['HTTP_HOST'],
-            'Content-Type: text/plain; charset=UTF-8',
-            'X-Mailer: PHP/' . phpversion()
-        ];
-        
         error_log("DEBUG: About to send email - To: {$userEmail}, Subject: {$subject}");
-        error_log("DEBUG: Email headers: " . implode(" | ", $headers));
-        
-        // Send email
-        $result = mail($userEmail, $subject, $body, implode("\r\n", $headers));
-        
+
+        // Send via sendImprovedEmail() for proper headers (Date, Message-ID, etc.)
+        $result = sendImprovedEmail($userEmail, $subject, $body);
+
         error_log("DEBUG: mail() function result: " . ($result ? 'TRUE' : 'FALSE'));
-        
+
         return $result;
-        
+
     } catch (Exception $e) {
         error_log("ERROR: Exception in sendTournamentRegistrationEmail: " . $e->getMessage());
         return false;
@@ -942,22 +925,15 @@ Best regards,
 ";
 
         // Email headers
-        $headers = [
-            'From: noreply@' . $_SERVER['HTTP_HOST'],
-            'Reply-To: noreply@' . $_SERVER['HTTP_HOST'],
-            'Content-Type: text/plain; charset=UTF-8',
-            'X-Mailer: PHP/' . phpversion()
-        ];
-        
         error_log("DEBUG: About to send cancellation email - To: {$userEmail}, Subject: {$subject}");
-        
-        // Send email
-        $result = mail($userEmail, $subject, $body, implode("\r\n", $headers));
-        
+
+        // Send via sendImprovedEmail() for proper headers (Date, Message-ID, etc.)
+        $result = sendImprovedEmail($userEmail, $subject, $body);
+
         error_log("DEBUG: Cancellation email mail() function result: " . ($result ? 'TRUE' : 'FALSE'));
-        
+
         return $result;
-        
+
     } catch (Exception $e) {
         error_log("ERROR: Exception in sendTournamentCancellationEmail: " . $e->getMessage());
         return false;
@@ -1015,22 +991,15 @@ Best regards,
 ";
 
         // Email headers
-        $headers = [
-            'From: noreply@' . $_SERVER['HTTP_HOST'],
-            'Reply-To: noreply@' . $_SERVER['HTTP_HOST'],
-            'Content-Type: text/plain; charset=UTF-8',
-            'X-Mailer: PHP/' . phpversion()
-        ];
-        
         error_log("DEBUG: About to send host cancellation confirmation email - To: {$hostEmail}, Subject: {$subject}");
-        
-        // Send email
-        $result = mail($hostEmail, $subject, $body, implode("\r\n", $headers));
-        
+
+        // Send via sendImprovedEmail() for proper headers (Date, Message-ID, etc.)
+        $result = sendImprovedEmail($hostEmail, $subject, $body);
+
         error_log("DEBUG: Host cancellation confirmation email mail() function result: " . ($result ? 'TRUE' : 'FALSE'));
-        
+
         return $result;
-        
+
     } catch (Exception $e) {
         error_log("ERROR: Exception in sendTournamentCancellationConfirmationEmail: " . $e->getMessage());
         return false;
@@ -1103,22 +1072,15 @@ Best regards,
 ";
 
         // Email headers
-        $headers = [
-            'From: noreply@' . $_SERVER['HTTP_HOST'],
-            'Reply-To: noreply@' . $_SERVER['HTTP_HOST'],
-            'Content-Type: text/plain; charset=UTF-8',
-            'X-Mailer: PHP/' . phpversion()
-        ];
-        
         error_log("DEBUG: About to send promotion email - To: {$userEmail}, Subject: {$subject}");
-        
-        // Send email
-        $result = mail($userEmail, $subject, $body, implode("\r\n", $headers));
-        
+
+        // Send via sendImprovedEmail() for proper headers (Date, Message-ID, etc.)
+        $result = sendImprovedEmail($userEmail, $subject, $body);
+
         error_log("DEBUG: Promotion email mail() function result: " . ($result ? 'TRUE' : 'FALSE'));
-        
+
         return $result;
-        
+
     } catch (Exception $e) {
         error_log("ERROR: Exception in sendWaitlistPromotionEmail: " . $e->getMessage());
         return false;
@@ -1279,9 +1241,7 @@ function sendImprovedEmail($to, $subject, $body, $isHtml = false) {
             'Date: ' . date('r'),
             'X-Priority: 3',
             'MIME-Version: 1.0',
-            'X-Originating-IP: [' . ($_SERVER['SERVER_ADDR'] ?? 'unknown') . ']',
-            'List-Unsubscribe-Post: List-Unsubscribe=One-Click',
-            'List-Unsubscribe: <mailto:unsubscribe@' . EMAIL_FROM_DOMAIN . '>'
+            'X-Originating-IP: [' . ($_SERVER['SERVER_ADDR'] ?? 'unknown') . ']'
         ];
         
         // Add proper text encoding
