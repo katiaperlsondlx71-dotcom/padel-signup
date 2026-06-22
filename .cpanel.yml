@@ -2,7 +2,7 @@
 deployment:
   tasks:
     - /bin/date > /home/efinitys/deploy-log.txt 2>&1
-    - /usr/bin/whoami >> /home/efinitys/deploy-log.txt 2>&1
-    - /usr/bin/which rsync >> /home/efinitys/deploy-log.txt 2>&1
-    - /bin/echo "--- rsync output ---" >> /home/efinitys/deploy-log.txt 2>&1
-    - /usr/bin/rsync -av --delete --exclude='.git' --exclude='.cpanel.yml' --exclude='error_log' /home/efinitys/repositories/padel-signup/ /home/efinitys/playpadelwith.us/ >> /home/efinitys/deploy-log.txt 2>&1
+    - /bin/cp -a /home/efinitys/repositories/padel-signup/. /home/efinitys/playpadelwith.us/ 2>> /home/efinitys/deploy-log.txt
+    - /bin/rm -rf /home/efinitys/playpadelwith.us/.git
+    - /bin/rm -f /home/efinitys/playpadelwith.us/.cpanel.yml
+    - /bin/echo "Deploy finished at $(/bin/date)" >> /home/efinitys/deploy-log.txt 2>&1
