@@ -11,6 +11,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     redirectTo('index.php');
 }
 
+// CSRF protection
+require_csrf_token();
+
 $action = $_POST['action'] ?? '';
 $tournamentId = intval($_POST['tournament_id'] ?? 0);
 $redirectUrl = urldecode($_POST['redirect_url'] ?? 'index.php');

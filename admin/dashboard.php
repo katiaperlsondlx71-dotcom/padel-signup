@@ -85,6 +85,7 @@ function renderTournamentRow($tournament) {
     echo '<a href="../tournament.php?t=' . $tournament['slug'] . '" style="color: #5a9fd4; text-decoration: none; margin-right: 12px; font-size: 13px; font-weight: 500;">View</a>';
     echo '<a href="manage-tournament.php?t=' . $tournament['slug'] . '" style="color: #10b981; text-decoration: none; margin-right: 12px; font-size: 13px; font-weight: 500;">Manage</a>';
     echo '<form method="POST" style="display: inline;">';
+    echo csrf_field();
     echo '<input type="hidden" name="action" value="delete_tournament">';
     echo '<input type="hidden" name="tournament_id" value="' . intval($tournament['id']) . '">';
     echo '<button type="submit" onclick="return confirmDelete(\'' . addslashes(htmlspecialchars($tournament['name'])) . '\')" style="background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 500; cursor: pointer; transition: background 0.2s;" onmouseover="this.style.background=\'#dc2626\'" onmouseout="this.style.background=\'#ef4444\'">Delete</button>';
@@ -110,6 +111,7 @@ $messageType = '';
 
 // Handle settings form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
+    require_csrf_token();
     if ($_POST['action'] === 'toggle_scoring') {
         $newValue = isset($_POST['scoring_enabled']) ? '1' : '0';
         if (setSetting('scoring_system_enabled', $newValue, 'Enable/disable the scoring system feature')) {
@@ -709,6 +711,7 @@ try {
     <div class="section">
         <h2>System Settings</h2>
         <form method="POST" style="margin-bottom: 20px;">
+            <?php echo csrf_field(); ?>
             <input type="hidden" name="action" value="toggle_scoring">
             <div style="display: flex; align-items: center; gap: 12px; padding: 16px; background: #f8fafc; border-radius: 6px; border: 1px solid #e2e8f0;">
                 <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none;">

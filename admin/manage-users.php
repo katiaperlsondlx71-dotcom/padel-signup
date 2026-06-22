@@ -17,6 +17,7 @@ $messageType = '';
 
 // Handle user actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require_csrf_token();
     $action = $_POST['action'] ?? '';
     $userId = intval($_POST['user_id'] ?? 0);
     
@@ -707,6 +708,7 @@ try {
                             <?php if (!$isCurrentUser): ?>
                                 <!-- Toggle Admin -->
                                 <form method="POST" style="display: inline;">
+                                    <?php echo csrf_field(); ?>
                                     <input type="hidden" name="action" value="toggle_admin">
                                     <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
                                     <button type="submit" class="btn <?php echo $user['is_admin'] ? 'btn-warning' : 'btn-primary'; ?>"
@@ -717,6 +719,7 @@ try {
                                 
                                 <!-- Ban/Unban User -->
                                 <form method="POST" style="display: inline;">
+                                    <?php echo csrf_field(); ?>
                                     <input type="hidden" name="action" value="toggle_ban">
                                     <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
                                     <button type="submit" class="btn <?php echo $user['is_banned'] ? 'btn-primary' : 'btn-danger'; ?>"
@@ -732,6 +735,7 @@ try {
                                 
                                 <!-- Delete User -->
                                 <form method="POST" style="display: inline;">
+                                    <?php echo csrf_field(); ?>
                                     <input type="hidden" name="action" value="delete_user">
                                     <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">
                                     <button type="submit" class="btn btn-danger"
@@ -768,6 +772,7 @@ try {
     <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 24px; border-radius: 8px; min-width: 300px;">
         <h3 style="margin-top: 0;">Reset Password</h3>
         <form method="POST">
+            <?php echo csrf_field(); ?>
             <input type="hidden" name="action" value="reset_password">
             <input type="hidden" name="user_id" id="resetUserId">
             

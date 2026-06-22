@@ -4,6 +4,9 @@ require_once 'includes/functions.php';
 // Require login
 requireLogin();
 
+// CSRF protection
+require_csrf_token();
+
 $action = $_POST['action'] ?? '';
 $tournamentId = intval($_POST['tournament_id'] ?? 0);
 $userId = $_SESSION['user_id'];

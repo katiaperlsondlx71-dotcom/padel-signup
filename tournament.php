@@ -706,6 +706,7 @@ $shareUrl = APP_URL . '/tournament.php?t=' . $tournament['slug'];
                                     </span>
                                     <?php if ($canRemovePlayer): ?>
                                         <form method="POST" action="tournament-action.php" style="display: inline; margin: 0;">
+                                            <?php echo csrf_field(); ?>
                                             <input type="hidden" name="tournament_id" value="<?php echo $tournament['id']; ?>">
                                             <input type="hidden" name="action" value="remove_player">
                                             <input type="hidden" name="target_user_id" value="<?php echo $player['user_id']; ?>">
@@ -741,6 +742,7 @@ $shareUrl = APP_URL . '/tournament.php?t=' . $tournament['slug'];
                                     </span>
                                     <?php if ($canRemovePlayer): ?>
                                         <form method="POST" action="tournament-action.php" style="display: inline; margin: 0;">
+                                            <?php echo csrf_field(); ?>
                                             <input type="hidden" name="tournament_id" value="<?php echo $tournament['id']; ?>">
                                             <input type="hidden" name="action" value="remove_player">
                                             <input type="hidden" name="target_user_id" value="<?php echo $player['user_id']; ?>">
@@ -768,6 +770,7 @@ $shareUrl = APP_URL . '/tournament.php?t=' . $tournament['slug'];
                             ✏️ Edit Tournament
                         </a>
                         <form method="POST" action="tournament-action.php" style="display: inline;">
+                            <?php echo csrf_field(); ?>
                             <input type="hidden" name="action" value="cancel_tournament">
                             <input type="hidden" name="tournament_id" value="<?php echo $tournament['id']; ?>">
                             <input type="hidden" name="redirect_url" value="<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">
@@ -784,6 +787,7 @@ $shareUrl = APP_URL . '/tournament.php?t=' . $tournament['slug'];
                         <div class="action-buttons">
                             <?php if ($isUserRegistered === 'registered'): ?>
                                 <form method="POST" action="tournament-action.php">
+                                    <?php echo csrf_field(); ?>
                                     <input type="hidden" name="action" value="cancel">
                                     <input type="hidden" name="tournament_id" value="<?php echo $tournament['id']; ?>">
                                     <input type="hidden" name="redirect_url" value="<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">
@@ -793,6 +797,7 @@ $shareUrl = APP_URL . '/tournament.php?t=' . $tournament['slug'];
                                 </form>
                             <?php elseif ($isUserRegistered === 'waitlist'): ?>
                                 <form method="POST" action="tournament-action.php">
+                                    <?php echo csrf_field(); ?>
                                     <input type="hidden" name="action" value="cancel">
                                     <input type="hidden" name="tournament_id" value="<?php echo $tournament['id']; ?>">
                                     <input type="hidden" name="redirect_url" value="<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">
@@ -802,6 +807,7 @@ $shareUrl = APP_URL . '/tournament.php?t=' . $tournament['slug'];
                                 </form>
                             <?php elseif ($isFull): ?>
                                 <form method="POST" action="tournament-action.php">
+                                    <?php echo csrf_field(); ?>
                                     <input type="hidden" name="action" value="register">
                                     <input type="hidden" name="tournament_id" value="<?php echo $tournament['id']; ?>">
                                     <input type="hidden" name="redirect_url" value="<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">
@@ -811,6 +817,7 @@ $shareUrl = APP_URL . '/tournament.php?t=' . $tournament['slug'];
                                 </form>
                             <?php else: ?>
                                 <form method="POST" action="tournament-action.php">
+                                    <?php echo csrf_field(); ?>
                                     <input type="hidden" name="action" value="register">
                                     <input type="hidden" name="tournament_id" value="<?php echo $tournament['id']; ?>">
                                     <input type="hidden" name="redirect_url" value="<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">
@@ -841,6 +848,7 @@ $shareUrl = APP_URL . '/tournament.php?t=' . $tournament['slug'];
                             
                             <?php if (isAdmin()): ?>
                                 <form method="POST" action="game-action.php">
+                                    <?php echo csrf_field(); ?>
                                     <input type="hidden" name="action" value="start_game">
                                     <input type="hidden" name="tournament_id" value="<?php echo $tournament['id']; ?>">
                                     <input type="hidden" name="redirect_url" value="<?php echo urlencode($_SERVER['REQUEST_URI']); ?>">

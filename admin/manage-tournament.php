@@ -34,8 +34,9 @@ $messageType = '';
 
 // Handle admin actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require_csrf_token();
     $action = $_POST['action'] ?? '';
-    
+
     try {
         switch ($action) {
             case 'add_user':
@@ -719,6 +720,7 @@ $availableUsers = array_filter($allUsers, function($u) { return !$u['registratio
             <h2>Add User to Tournament</h2>
             <?php if (!empty($availableUsers)): ?>
                 <form method="POST">
+                    <?php echo csrf_field(); ?>
                     <input type="hidden" name="action" value="add_user">
                     <div class="form-group">
                         <label for="user_id">Select User:</label>
@@ -769,6 +771,7 @@ $availableUsers = array_filter($allUsers, function($u) { return !$u['registratio
                                 
                                 <!-- Move to waitlist -->
                                 <form method="POST" style="display: inline;">
+                                    <?php echo csrf_field(); ?>
                                     <input type="hidden" name="action" value="change_status">
                                     <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
                                     <input type="hidden" name="new_status" value="waitlist">
@@ -781,6 +784,7 @@ $availableUsers = array_filter($allUsers, function($u) { return !$u['registratio
                                 <!-- Remove user -->
                                 <?php if ($user['user_id'] != $tournament['host_id']): ?>
                                     <form method="POST" style="display: inline;">
+                                        <?php echo csrf_field(); ?>
                                         <input type="hidden" name="action" value="remove_user">
                                         <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
                                         <button type="submit" class="btn btn-danger btn-small"
@@ -815,6 +819,7 @@ $availableUsers = array_filter($allUsers, function($u) { return !$u['registratio
                                 
                                 <!-- Move to registered -->
                                 <form method="POST" style="display: inline;">
+                                    <?php echo csrf_field(); ?>
                                     <input type="hidden" name="action" value="change_status">
                                     <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
                                     <input type="hidden" name="new_status" value="registered">
@@ -826,6 +831,7 @@ $availableUsers = array_filter($allUsers, function($u) { return !$u['registratio
                                 
                                 <!-- Remove user -->
                                 <form method="POST" style="display: inline;">
+                                    <?php echo csrf_field(); ?>
                                     <input type="hidden" name="action" value="remove_user">
                                     <input type="hidden" name="user_id" value="<?php echo $user['user_id']; ?>">
                                     <button type="submit" class="btn btn-danger btn-small"
