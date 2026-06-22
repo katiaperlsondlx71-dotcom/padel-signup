@@ -992,5 +992,9 @@ if (isLoggedIn()) {
             }
         }
     </script>
+
+    <div style="text-align: center; padding: 24px; color: #9ca3af; font-size: 12px; border-top: 1px solid #e5e7eb; margin-top: 32px;">
+        Restored from efafbf0 (initial commit) · v0.3 deploy 2026-06-22
+    </div>
 </body>
 </html>
