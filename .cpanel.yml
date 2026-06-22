@@ -4,4 +4,5 @@ deployment:
     - /bin/date > /home/efinitys/deploy-log.txt 2>&1
     - /bin/rm -rf /home/efinitys/playpadelwith.us/.git
     - /usr/bin/tar -C /home/efinitys/repositories/padel-signup --exclude='./.git' --exclude='./.cpanel.yml' -cf - . | /usr/bin/tar -C /home/efinitys/playpadelwith.us -xpf - 2>> /home/efinitys/deploy-log.txt
+    - /bin/chmod 755 /home/efinitys/playpadelwith.us
     - /bin/echo "Deploy finished at $(/bin/date)" >> /home/efinitys/deploy-log.txt 2>&1
