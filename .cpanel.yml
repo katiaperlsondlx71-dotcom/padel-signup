@@ -1,6 +1,4 @@
 ---
 deployment:
   tasks:
-    - export GIT_DIR=/home/efinitys/repositories/padel-signup.git
-    - /usr/local/bin/git checkout -f main
-    - rsync -a --delete --exclude='.git' --exclude='.cpanel.yml' --exclude='error_log' /home/efinitys/repositories/padel-signup/ /home/efinitys/playpadelwith.us/
+    - /usr/bin/rsync -av --delete --exclude='.git' --exclude='.cpanel.yml' --exclude='error_log' /home/efinitys/repositories/padel-signup/ /home/efinitys/playpadelwith.us/
