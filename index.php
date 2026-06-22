@@ -231,7 +231,7 @@ $pageTitle = 'Play Padel with Us - Tournament Management Made Simple';
 
     <footer style="background: #1a202c; color: white; padding: 40px 0;">
         <div class="container" style="text-align: center;">
-            <p style="opacity: 0.7;">&copy; <?php echo date('Y'); ?> Play Padel with Us. Built for the padel community.</p>
+            <p style="opacity: 0.7;">&copy; <?php echo date('Y'); ?> Play Padel with Us. Built for the padel community. · v0.2 (deploy 2026-06-22)</p>
         </div>
     </footer>
 </body>
