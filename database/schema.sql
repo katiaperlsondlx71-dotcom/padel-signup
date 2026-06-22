@@ -9,6 +9,7 @@ CREATE TABLE users (
     password_hash VARCHAR(255) NOT NULL,
     country_code VARCHAR(3) DEFAULT 'XX',
     phone VARCHAR(20),
+    timezone VARCHAR(64) DEFAULT 'Asia/Bangkok',
     is_admin BOOLEAN DEFAULT FALSE,
     is_banned BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -18,6 +19,7 @@ CREATE TABLE users (
 -- Tournaments table
 CREATE TABLE tournaments (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    slug VARCHAR(16) UNIQUE,
     name VARCHAR(255) NOT NULL,
     date DATE NOT NULL,
     start_time TIME NOT NULL,
@@ -59,14 +61,34 @@ CREATE TABLE sessions (
 CREATE TABLE remember_tokens (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
-    token VARCHAR(128) UNIQUE NOT NULL,
+    token VARCHAR(255) UNIQUE NOT NULL,
     expires_at TIMESTAMP NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- Insert default admin user (password: admin123)
-INSERT INTO users (name, email, password_hash, country_code, is_admin) VALUES 
+-- Password reset tokens table for the "Forgot Password" flow
+CREATE TABLE password_reset_tokens (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    token VARCHAR(128) UNIQUE NOT NULL,
+    expires_at TIMESTAMP NOT NULL,
+    used_at TIMESTAMP NULL DEFAULT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- Application settings (key/value pairs read via getSetting()/setSetting())
+CREATE TABLE settings (
+    setting_key VARCHAR(100) PRIMARY KEY,
+    setting_value TEXT,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Insert default admin user (password: admin123 — change immediately on fresh installs)
+INSERT INTO users (name, email, password_hash, country_code, is_admin) VALUES
 ('Admin', 'admin@padelapp.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'XX', TRUE);
 
 -- Create indexes for better performance
@@ -76,3 +98,5 @@ CREATE INDEX idx_registrations_user ON registrations(user_id);
 CREATE INDEX idx_sessions_expires ON sessions(expires_at);
 CREATE INDEX idx_remember_tokens_expires ON remember_tokens(expires_at);
 CREATE INDEX idx_remember_tokens_user ON remember_tokens(user_id);
+CREATE INDEX idx_password_reset_tokens_user ON password_reset_tokens(user_id);
+CREATE INDEX idx_password_reset_tokens_expires ON password_reset_tokens(expires_at);
