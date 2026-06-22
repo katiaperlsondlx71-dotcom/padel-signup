@@ -1299,17 +1299,9 @@ See you on the court!
 Best regards,
 The Play Padel with Us Team";
 
-        // Use simpler headers like tournament creation email
-        $headers = [
-            'From: noreply@' . $_SERVER['HTTP_HOST'],
-            'Reply-To: noreply@' . $_SERVER['HTTP_HOST'],
-            'Content-Type: text/plain; charset=UTF-8',
-            'X-Mailer: PHP/' . phpversion()
-        ];
-        
         error_log("DEBUG: Sending welcome email to {$email}");
-        
-        return mail($email, $subject, $body, implode("\r\n", $headers));
+
+        return sendImprovedEmail($email, $subject, $body);
         
     } catch (Exception $e) {
         error_log("Failed to send welcome email: " . $e->getMessage());
