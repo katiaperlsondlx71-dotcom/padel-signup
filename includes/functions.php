@@ -134,25 +134,33 @@ function generateRememberToken() {
     return bin2hex(random_bytes(64)); // 128 character token
 }
 
+// Hash a remember-me token for at-rest storage. The raw token lives only in
+// the user's cookie; the database stores the SHA-256 hash so a DB read does
+// not grant account takeover.
+function hashRememberToken($token) {
+    return hash('sha256', $token);
+}
+
 function createRememberToken($userId) {
     try {
-        // Generate secure token
+        // Generate secure token (raw value goes to the cookie)
         $token = generateRememberToken();
+        $tokenHash = hashRememberToken($token);
         $expiresAt = date('Y-m-d H:i:s', time() + (30 * 24 * 60 * 60)); // 30 days
-        
+
         // Clear any existing tokens for this user
         db()->query("DELETE FROM remember_tokens WHERE user_id = ?", [$userId]);
-        
-        // Insert new token
+
+        // Insert hashed token
         db()->insert('remember_tokens', [
             'user_id' => $userId,
-            'token' => $token,
+            'token' => $tokenHash,
             'expires_at' => $expiresAt
         ]);
-        
-        // Set cookie
+
+        // Set cookie with the RAW token (only place it exists in plaintext)
         setcookie('remember_token', $token, time() + (30 * 24 * 60 * 60), '/', '', true, true);
-        
+
         return $token;
     } catch (Exception $e) {
         error_log("Failed to create remember token: " . $e->getMessage());
@@ -164,15 +172,16 @@ function validateRememberToken($token) {
     if (empty($token)) {
         return null;
     }
-    
+
     try {
+        $tokenHash = hashRememberToken($token);
         $result = db()->fetch("
-            SELECT rt.user_id, u.name, u.email, u.is_admin 
+            SELECT rt.user_id, u.name, u.email, u.is_admin
             FROM remember_tokens rt
             JOIN users u ON rt.user_id = u.id
             WHERE rt.token = ? AND rt.expires_at > NOW()
-        ", [$token]);
-        
+        ", [$tokenHash]);
+
         return $result;
     } catch (Exception $e) {
         error_log("Failed to validate remember token: " . $e->getMessage());
@@ -211,11 +220,11 @@ function loginWithRememberToken($token) {
 
 function clearRememberToken() {
     if (isset($_COOKIE['remember_token'])) {
-        $token = $_COOKIE['remember_token'];
-        
-        // Delete from database
-        db()->query("DELETE FROM remember_tokens WHERE token = ?", [$token]);
-        
+        $tokenHash = hashRememberToken($_COOKIE['remember_token']);
+
+        // Delete from database (compare against stored hash)
+        db()->query("DELETE FROM remember_tokens WHERE token = ?", [$tokenHash]);
+
         // Clear cookie
         setcookie('remember_token', '', time() - 3600, '/', '', true, true);
     }
