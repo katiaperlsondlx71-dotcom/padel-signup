@@ -1,4 +1,20 @@
 <?php
+// Configure secure session cookie params BEFORE anything else starts a session.
+// (config.php has its own session_start fallback, but if we set the cookie
+// params first and call session_start here, config.php's call becomes a no-op
+// and the hardened flags stick.)
+if (session_status() === PHP_SESSION_NONE) {
+    session_set_cookie_params([
+        'lifetime' => 0,
+        'path' => '/',
+        'domain' => '',
+        'secure' => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
+        'httponly' => true,
+        'samesite' => 'Lax',
+    ]);
+    session_start();
+}
+
 require_once 'config.php';
 require_once 'database.php';
 
@@ -56,6 +72,7 @@ function login($email, $password) {
 
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_name'] = $user['name'];
+        $_SESSION['user_country'] = $user['country_code'];
         $_SESSION['is_admin'] = $user['is_admin'];
         
         // Create session record
@@ -159,7 +176,14 @@ function createRememberToken($userId) {
         ]);
 
         // Set cookie with the RAW token (only place it exists in plaintext)
-        setcookie('remember_token', $token, time() + (30 * 24 * 60 * 60), '/', '', true, true);
+        setcookie('remember_token', $token, [
+            'expires' => time() + (30 * 24 * 60 * 60),
+            'path' => '/',
+            'domain' => '',
+            'secure' => true,
+            'httponly' => true,
+            'samesite' => 'Lax',
+        ]);
 
         return $token;
     } catch (Exception $e) {
@@ -225,8 +249,15 @@ function clearRememberToken() {
         // Delete from database (compare against stored hash)
         db()->query("DELETE FROM remember_tokens WHERE token = ?", [$tokenHash]);
 
-        // Clear cookie
-        setcookie('remember_token', '', time() - 3600, '/', '', true, true);
+        // Clear cookie (same flags as when it was set, with expired time)
+        setcookie('remember_token', '', [
+            'expires' => time() - 3600,
+            'path' => '/',
+            'domain' => '',
+            'secure' => true,
+            'httponly' => true,
+            'samesite' => 'Lax',
+        ]);
     }
 }
 

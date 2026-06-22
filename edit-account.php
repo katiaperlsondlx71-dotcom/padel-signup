@@ -24,7 +24,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nickname = trim($_POST['nickname'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $country_code = trim($_POST['country_code'] ?? '');
-    
+    if (!isValidCountryCode($country_code)) {
+        $country_code = 'XX';
+    }
+
     // Simple validation
     if (empty($name) || empty($email)) {
         showMessage('Name and email are required.', 'error');

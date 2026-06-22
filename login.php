@@ -445,7 +445,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <a href="create-tournament.php">Create Tournament</a>
                 <a href="index.php">My Upcoming Games</a>
                 <a href="previous-games.php">My Previous Games</a>
-                <a href="create-tournament.php">Create Tournament</a>
                 <a href="edit-account.php">My Account</a>
                 <a href="logout.php" class="logout">Logout</a>
             </div>

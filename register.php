@@ -23,6 +23,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'confirm_password' => $_POST['confirm_password'] ?? '',
         'country_code' => sanitizeInput($_POST['country_code'] ?? 'XX')
     ];
+    if (!isValidCountryCode($formData['country_code'])) {
+        $formData['country_code'] = 'XX';
+    }
     
     // Validation
     if (empty($formData['name'])) {
