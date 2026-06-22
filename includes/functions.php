@@ -583,8 +583,8 @@ function autoMarkCompletedTournaments() {
         
         $updated = db()->update('tournaments',
             ['status' => 'completed'],
-            "status = 'upcoming' AND CONCAT(date, ' ', end_time) < :now",
-            ['now' => $now]
+            "status = 'upcoming' AND CONCAT(date, ' ', end_time) < ?",
+            [$now]
         );
         
         if ($updated > 0) {

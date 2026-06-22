@@ -983,7 +983,7 @@ $shareUrl = APP_URL . '/tournament.php?t=' . $tournament['slug'];
                 'date' => date('l, F jS', strtotime($converted['user_date'])),
                 'time' => $timeInfo['start_time'] . ' to ' . $timeInfo['end_time'],
                 'level' => $tournament['level'],
-                'fee' => $tournament['fee'] . ' THB',
+                'fee' => ($tournament['fee'] ?? '') . ' THB',
                 'location' => $tournament['location'],
                 'description' => $tournament['description'],
                 'max_participants' => $tournament['max_participants'],
