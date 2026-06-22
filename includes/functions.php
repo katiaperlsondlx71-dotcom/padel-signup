@@ -650,8 +650,8 @@ function safe_redirect_url($url, $default = 'index.php') {
 
 // Encode a value as a JS string literal safely embeddable inside an HTML attribute.
 // Returns a quoted, fully-encoded JS string (e.g. &quot;Mark's&quot;) so that
-// onclick="fn(<?= js_string_attr($name) ?>)" stays valid even if $name contains
-// quotes, backslashes, or HTML metacharacters.
+// onclick handlers stay valid even if the value contains quotes, backslashes,
+// or HTML metacharacters. Pass the result directly inside an HTML attribute.
 function js_string_attr($value) {
     return htmlspecialchars(
         json_encode((string)$value, JSON_HEX_QUOT | JSON_HEX_APOS | JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE),
