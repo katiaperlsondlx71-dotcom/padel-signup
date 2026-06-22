@@ -2,7 +2,6 @@
 deployment:
   tasks:
     - /bin/date > /home/efinitys/deploy-log.txt 2>&1
-    - /bin/cp -a /home/efinitys/repositories/padel-signup/. /home/efinitys/playpadelwith.us/ 2>> /home/efinitys/deploy-log.txt
     - /bin/rm -rf /home/efinitys/playpadelwith.us/.git
-    - /bin/rm -f /home/efinitys/playpadelwith.us/.cpanel.yml
+    - /usr/bin/tar -C /home/efinitys/repositories/padel-signup --exclude='./.git' --exclude='./.cpanel.yml' -cf - . | /usr/bin/tar -C /home/efinitys/playpadelwith.us -xpf - 2>> /home/efinitys/deploy-log.txt
     - /bin/echo "Deploy finished at $(/bin/date)" >> /home/efinitys/deploy-log.txt 2>&1
